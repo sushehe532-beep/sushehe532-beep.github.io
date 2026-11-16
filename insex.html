@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nova's Space · hub</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ---------- RESET & GLOBAL ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f5f7fb;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      color: #1e1e2f;
+      line-height: 1.5;
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      max-width: 1300px;
+      width: 100%;
+    }
+
+    /* ---------- GLOBAL SOFT EDGE UTILITIES ---------- */
+    .soft-edge {
+      border-radius: 2.5rem;
+    }
+
+    /* ---------- PROFILE CARD ---------- */
+    .profile-card {
+      background: white;
+      border-radius: 2.8rem;
+      padding: 2.2rem 2.8rem;
+      box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.08);
+      margin-bottom: 3rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(2px);
+    }
+
+    .profile-left h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #1e1e2f 0%, #4a4a6a 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.3rem;
+    }
+
+    .profile-left .tagline {
+      font-size: 1.1rem;
+      color: #5b5b7a;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .tagline i {
+      color: #7b6cf6;
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 0.9rem;
+      margin-top: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      background: #eceef5;
+      border-radius: 60px;
+      padding: 0.5rem 1.3rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #2b2b44;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+    }
+
+    .badge:hover {
+      background: #e2e0fc;
+      border-color: #cdc6ff;
+    }
+
+    .badge i {
+      color: #7b6cf6;
+      font-size: 0.95rem;
+    }
+
+    .profile-right {
+      text-align: right;
+    }
+
+    .stats-mini {
+      display: flex;
+      gap: 2.4rem;
+      background: #f0f2fa;
+      padding: 0.9rem 2.2rem;
+      border-radius: 80px;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-weight: 800;
+      font-size: 1.8rem;
+      color: #1e1e2f;
+      line-height: 1.2;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #6e6e8a;
+      font-weight: 500;
+    }
+
+    /* ---------- SECTION TITLES ---------- */
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin: 2.2rem 0 1.8rem 0;
+      letter-spacing: -0.01em;
+      color: #1e1e2f;
+    }
+
+    .section-title i {
+      color: #7b6cf6;
+      font-size: 1.7rem;
+    }
+
+    /* ---------- APP GRID (softer cards) ---------- */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.8rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 2.2rem;
+      padding: 1.8rem 1.7rem;
+      box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.06);
+      transition: transform 0.25s, box-shadow 0.25s;
+      border: 1px solid #f0f0f8;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 24px 36px -14px rgba(90, 80, 200, 0.18);
+      border-color: #dad6fc;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .card-icon {
+      background: #eeebff;
+      width: 52px;
+      height: 52px;
+      border-radius: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      color: #4c3cd6;
+      transition: all 0.2s;
+    }
+
+    .card:hover .card-icon {
+      background: #e0daff;
+      border-radius: 24px;
+    }
+
+    .card-badge {
+      background: #f0f0fc;
+      border-radius: 40px;
+      padding: 0.3rem 1.2rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #3b2e9c;
+    }
+
+    .card h3 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: #171727;
+    }
+
+    .card p {
+      font-size: 0.92rem;
+      color: #5b5b7a;
+      margin-bottom: 1.3rem;
+      flex: 1;
+      line-height: 1.5;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid #efeff8;
+      padding-top: 1.1rem;
+      margin-top: 0.5rem;
+    }
+
+    .file-size {
+      font-size: 0.8rem;
+      color: #8a8aa8;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .btn-install {
+      background: #1e1e2f;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 0.6rem 1.5rem;
+      font-weight: 600;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      box-shadow: 0 4px 12px -6px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-install i {
+      font-size: 0.85rem;
+    }
+
+    .btn-install:hover {
+      background: #3a3a5c;
+      transform: scale(1.02);
+    }
+
+    .btn-install:active {
+      transform: scale(0.98);
+    }
+
+    /* ---------- GAME PANEL (softer) ---------- */
+    .game-panel {
+      background: linear-gradient(145deg, #1e1e2f 0%, #2d2d4a 100%);
+      border-radius: 3rem;
+      padding: 2.5rem 2.8rem;
+      color: white;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      margin: 3rem 0 2.5rem;
+      box-shadow: 0 30px 40px -18px rgba(0, 0, 0, 0.35);
+    }
+
+    .game-left h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .game-left h2 i {
+      color: #ffd966;
+    }
+
+    .game-stats {
+      display: flex;
+      gap: 2rem;
+      margin-top: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .game-stat {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50px;
+      padding: 0.55rem 1.5rem;
+      font-weight: 600;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .game-stat i {
+      color: #ffd966;
+    }
+
+    .game-right {
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
+    }
+
+    .roll-btn {
+      background: #ffd966;
+      border: none;
+      color: #1e1e2f;
+      font-weight: 800;
+      font-size: 1.15rem;
+      padding: 1rem 2.4rem;
+      border-radius: 80px;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 10px 22px -8px rgba(255, 217, 102, 0.5);
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+
+    .roll-btn:hover {
+      background: #ffe79e;
+      transform: scale(1.03);
+    }
+
+    .roll-btn:active {
+      transform: scale(0.98);
+    }
+
+    .aura-box {
+      background: rgba(0, 0, 0, 0.35);
+      border-radius: 80px;
+      padding: 0.8rem 2rem;
+      font-weight: 600;
+      font-size: 1.05rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(4px);
+      min-width: 200px;
+      text-align: center;
+    }
+
+    .aura-box span {
+      color: #ffd966;
+    }
+
+    /* ---------- CONTRIBUTORS ---------- */
+    .contributors {
+      background: white;
+      border-radius: 2.5rem;
+      padding: 1.8rem 2.4rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.2rem;
+      border: 1px solid #edecf5;
+      margin-top: 2rem;
+    }
+
+    .contrib-left {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .contrib-left i {
+      font-size: 2rem;
+      color: #7b6cf6;
+    }
+
+    .contrib-names {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+    }
+
+    .contrib-names span {
+      background: #f2f0ff;
+      border-radius: 50px;
+      padding: 0.4rem 1.2rem;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: #3b2e9c;
+      transition: background 0.15s;
+    }
+
+    .contrib-names span:hover {
+      background: #e4dfff;
+    }
+
+    .footer-note {
+      font-size: 0.85rem;
+      color: #8a8aa8;
+      margin-top: 2.2rem;
+      text-align: center;
+    }
+
+    /* responsive */
+    @media (max-width: 700px) {
+      body { padding: 1.2rem; }
+      .profile-card { flex-direction: column; align-items: flex-start; gap: 1.8rem; border-radius: 2.2rem; }
+      .profile-right { text-align: left; width: 100%; }
+      .stats-mini { width: 100%; justify-content: space-around; border-radius: 60px; }
+      .game-panel { flex-direction: column; align-items: flex-start; gap: 1.8rem; border-radius: 2.2rem; }
+      .game-right { width: 100%; flex-direction: column; align-items: stretch; }
+      .aura-box { text-align: center; }
+      .card { border-radius: 1.8rem; }
+      .roll-btn { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- PROFILE / HEADER -->
+    <div class="profile-card">
+      <div class="profile-left">
+        <h1>Nova's Space</h1>
+        <div class="tagline">
+          <i class="fas fa-code"></i> 15 y/o · Rust, JS, Swift · reverse engineering
+        </div>
+        <div class="badge-row">
+          <div class="badge"><i class="fas fa-shield-hal"></i> jailbreak</div>
+          <div class="badge"><i class="fas fa-microchip"></i> iOS tinkerer</div>
+          <div class="badge"><i class="fas fa-gamepad"></i> emulation</div>
+          <div class="badge"><i class="fas fa-blanket"></i> blankies 😱</div>
+        </div>
+      </div>
+      <div class="profile-right">
+        <div class="stats-mini">
+          <div class="stat-item">
+            <div class="stat-number">28</div>
+            <div class="stat-label">IPAs</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">7</div>
+            <div class="stat-label">tweaks</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">4</div>
+            <div class="stat-label">games</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FILES / APPS GRID -->
+    <div class="section-title">
+      <i class="fas fa-box-archive"></i> installables & tools
+    </div>
+    <div class="grid" id="appGrid">
+      <!-- populated by JS -->
+    </div>
+
+    <!-- MINI GAME (gacha) -->
+    <div class="game-panel">
+      <div class="game-left">
+        <h2><i class="fas fa-dice-d6"></i> luck roll · gacha</h2>
+        <div class="game-stats">
+          <div class="game-stat"><i class="fas fa-coins"></i> <span id="coinDisplay">0</span> coins</div>
+          <div class="game-stat"><i class="fas fa-rotate"></i> <span id="rollDisplay">0</span> rolls</div>
+          <div class="game-stat"><i class="fas fa-star"></i> base luck <span id="luckBase">1.0x</span></div>
+        </div>
+      </div>
+      <div class="game-right">
+        <div class="aura-box" id="auraBox">✨ no aura yet ✨</div>
+        <button class="roll-btn" id="rollBtn"><i class="fas fa-dice"></i> roll</button>
+      </div>
+    </div>
+
+    <!-- CONTRIBUTORS -->
+    <div class="contributors">
+      <div class="contrib-left">
+        <i class="fas fa-heart"></i>
+        <div class="contrib-names">
+          <span>@kysonloll</span>
+          <span>@pizzaman590</span>
+          <span>@2p4j</span>
+          <span>@3v9h</span>
+          <span>@oed6</span>
+          <span>@khoilovesyou</span>
+          <span>@diewhip</span>
+          <span>@meowlbee</span>
+          <span>@Nyasami</span>
+        </div>
+      </div>
+      <div><i class="fas fa-code-branch" style="color:#7b6cf6;"></i> fork · inspired by theonlygurt</div>
+    </div>
+
+    <div class="footer-note">
+      <i class="fas fa-shield"></i> this is a demo · all installs are fictional · have fun
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // ---------------- APP / IPA DATA ----------------
+      const apps = [
+        { name: "AirTroller TIPA", desc: "AirDrop spammer / flooder to troll friends. Sends AirDrops until device explodes :D", icon: "fa-bolt", badge: "troll", size: "2.1 MB" },
+        { name: "Amethyst Remastered IPA", desc: "Remastered version of Amethyst Launcher", icon: "fa-gem", badge: "launcher", size: "12 MB" },
+        { name: "Appstore++ TIPA", desc: "Downgrade App Store installed apps!", icon: "fa-arrow-down", badge: "utility", size: "1.8 MB" },
+        { name: "Blinker Fluid IPA", desc: "Experimental Chromium Blink + V8 browser for iOS. Runs without WebKit. Requires JIT.", icon: "fa-chrome", badge: "browser", size: "45 MB" },
+        { name: "BunnyTweak", desc: "Tweak to inject Bunny and OpenInDiscord into Discord. Forked from VendettaTweak.", icon: "fa-discord", badge: "tweak", size: "3.2 MB" },
+        { name: "ByeTunes IPA", desc: "Inject music (MP3, M4A, FLAC) directly into media library without computer sync.", icon: "fa-music", badge: "media", size: "8 MB" },
+        { name: "ClassiCube IPA", desc: "Minecraft old beta emulator (pretty light).", icon: "fa-cube", badge: "game", size: "9 MB" },
+        { name: "Dopamine rootless IPA", desc: "Rootless semi-untethered jailbreak for iOS 15.0 - 17.3.1 (arm64e), etc.", icon: "fa-droplet", badge: "jailbreak", size: "34 MB" },
+        { name: "Dopamine2 Roothide IPA", desc: "Roothide jailbreak for iOS 15-16.7.16 (arm64) and 15.0-16.5.1 (arm64e)", icon: "fa-droplet", badge: "jailbreak", size: "35 MB" },
+        { name: "EeveeSpotify IPA", desc: "Spotify modded. From Apptesters", icon: "fa-spotify", badge: "mod", size: "28 MB" },
+        { name: "Gtok DEB", desc: "TikTok mod better than vibetok. inject using Ksign/Feather.", icon: "fa-tiktok", badge: "mod", size: "15 MB" },
+        { name: "Henge IPA", desc: "Runs macOS on iPhone! requires iOS 17.0+, A14/M1+, >43GB free.", icon: "fa-apple", badge: "experimental", size: "1.2 GB" },
+        { name: "Husk IPA", desc: "Runs APK files and variations on iOS GPU! requires JIT.", icon: "fa-android", badge: "emulator", size: "64 MB" },
+        { name: "IbisPaint prime X", desc: "IbisPaint X++ premium unlocked. Signed by LeTi.", icon: "fa-paintbrush", badge: "premium", size: "22 MB" },
+        { name: "KettuTweak", desc: "Tweak to inject Kettu into Discord.", icon: "fa-discord", badge: "tweak", size: "2.4 MB" },
+        { name: "Minecraft IPA", desc: "Minecraft bedrock cracked.", icon: "fa-cube", badge: "game", size: "140 MB" },
+        { name: "NeoFreeBird IPA", desc: "Modified Twitter with branding reverts, BHTwitter and QoL mods.", icon: "fa-twitter", badge: "mod", size: "38 MB" },
+        { name: "Nyxian IPA", desc: "Native IDE + userspace microkernel for building iOS apps on-device.", icon: "fa-terminal", badge: "dev", size: "25 MB" },
+        { name: "OldOS IPA", desc: "Recreating a fully functional iOS 4 in SwiftUI.", icon: "fa-clock", badge: "retro", size: "18 MB" },
+        { name: "Raincord IPA", desc: "Custom Discord client for Mobile! Lightweight and feature packed.", icon: "fa-discord", badge: "mod", size: "42 MB" },
+        { name: "Relaxin IPA", desc: "Roothide jailbreak for A12-M2 idevices. Supports iOS 16.5-18.7.1, etc.", icon: "fa-leaf", badge: "jailbreak", size: "33 MB" },
+        { name: "Reynard IPA", desc: "Gecko-based web browser for iOS 13+. Uses Gecko engine. Requires JIT.", icon: "fa-firefox", badge: "browser", size: "52 MB" },
+        { name: "Taurus Spotify", desc: "A better spotify mod, recommended.", icon: "fa-spotify", badge: "mod", size: "29 MB" },
+        { name: "TrollApps IPA", desc: "Alternative to iOS App Store for TrollStore users.", icon: "fa-store", badge: "trollstore", size: "7 MB" },
+        { name: "TrollDecrypt TIPA", desc: "iOS IPA Decrypter for TrollStore.", icon: "fa-lock-open", badge: "tool", size: "3 MB" },
+        { name: "TrollFools TIPA", desc: "In-place tweak injection with insert_dylib and ChOma.", icon: "fa-wrench", badge: "tweak", size: "5 MB" },
+        { name: "Utsuro IPA", desc: "Runs Xbox games on iOS and iPadOS! Requires JIT.", icon: "fa-xbox", badge: "emulator", size: "88 MB" },
+        { name: "VirtualMac DEB", desc: "Run macOS on iPad Pro M1/M2. Requires iPadOS 14-16.3.1.", icon: "fa-desktop", badge: "virtualization", size: "1.5 GB" },
+        { name: "XeniOS", desc: "iOS and macOS port of Xenia, the Xbox 360 Emulator.", icon: "fa-xbox", badge: "emulator", size: "102 MB" },
+        { name: "YouProEXTRA", desc: "YouTube IPA builder packed with customizable tweaks (Youtubemaxxing).", icon: "fa-youtube", badge: "mod", size: "48 MB" }
+      ];
+
+      const grid = document.getElementById('appGrid');
+      if (grid) {
+        apps.forEach(app => {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.innerHTML = `
+            <div class="card-header">
+              <div class="card-icon"><i class="fas ${app.icon}"></i></div>
+              <div class="card-badge">${app.badge}</div>
+            </div>
+            <h3>${app.name}</h3>
+            <p>${app.desc}</p>
+            <div class="card-footer">
+              <span class="file-size"><i class="fas fa-hard-drive"></i> ${app.size}</span>
+              <button class="btn-install" onclick="alert('📦 Demo: would install ${app.name.replace(/'/g, "\\'")}')"><i class="fas fa-download"></i> install</button>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+      }
+
+      // ---------------- MINI GAME ----------------
+      let coins = 0;
+      let rolls = 0;
+      let currentAura = null;
+
+      const coinDisplay = document.getElementById('coinDisplay');
+      const rollDisplay = document.getElementById('rollDisplay');
+      const auraBox = document.getElementById('auraBox');
+      const rollBtn = document.getElementById('rollBtn');
+
+      const auras = [
+        { name: "Common", emoji: "🌫️", weight: 50 },
+        { name: "Uncommon", emoji: "🍀", weight: 25 },
+        { name: "Rare", emoji: "💎", weight: 15 },
+        { name: "Epic", emoji: "🔥", weight: 7 },
+        { name: "Legendary", emoji: "⚡", weight: 2.5 },
+        { name: "Mythic", emoji: "🌟", weight: 0.5 }
+      ];
+
+      function weightedRandomAura() {
+        const totalWeight = auras.reduce((acc, a) => acc + a.weight, 0);
+        let rand = Math.random() * totalWeight;
+        for (let aura of auras) {
+          if (rand < aura.weight) return aura;
+          rand -= aura.weight;
+        }
+        return auras[0];
+      }
+
+      function updateUI() {
+        coinDisplay.textContent = coins;
+        rollDisplay.textContent = rolls;
+        document.getElementById('luckBase').textContent = '1.0x';
+      }
+
+      rollBtn.addEventListener('click', () => {
+        rolls++;
+        coins += 1;
+
+        let aura;
+        if (rolls % 30 === 0 && rolls > 0) {
+          const luckyAuras = auras.slice(2);
+          const totalLuckyWeight = luckyAuras.reduce((acc, a) => acc + a.weight, 0);
+          let rand = Math.random() * totalLuckyWeight;
+          for (let a of luckyAuras) {
+            if (rand < a.weight) { aura = a; break; }
+            rand -= a.weight;
+          }
+          if (!aura) aura = luckyAuras[0];
+        } else {
+          aura = weightedRandomAura();
+        }
+
+        currentAura = aura;
+        auraBox.innerHTML = `${aura.emoji} ${aura.name} aura`;
+
+        if (aura.name === 'Mythic') coins += 10;
+        else if (aura.name === 'Legendary') coins += 5;
+        else if (aura.name === 'Epic') coins += 2;
+
+        updateUI();
+      });
+
+      updateUI();
+      auraBox.innerHTML = '✨ no aura yet ✨';
+    })();
+  </script>
+</body>
+</html>
